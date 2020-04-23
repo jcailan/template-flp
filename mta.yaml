@@ -1,0 +1,47 @@
+ID: riz.inno.portal
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: inno-app-router
+    type: approuter.nodejs
+    path: app-router
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: inno-html5-repo-runtime
+      - name: inno-portal-resources
+  - name: inno-ui-deployer
+    type: com.sap.html5.application-content
+    path: ui-deployer
+    requires:
+      - name: inno-html5-repo-host
+  - name: portal
+    type: com.sap.portal.content
+    path: portal
+    parameters:
+      stack: cflinuxfs3
+      memory: 128M
+      buildpack: 'https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.6.39/nodejs-buildpack-cflinuxfs3-v1.6.39.zip'
+    requires:
+      - name: inno-portal-resources
+      - name: inno-html5-repo-host
+      - name: inno-ui-deployer
+resources:
+  - name: inno-html5-repo-runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: inno-html5-repo-host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: inno-portal-resources
+    parameters:
+      service-plan: standard
+      service: portal
+    type: org.cloudfoundry.managed-service
