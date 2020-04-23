@@ -26,7 +26,11 @@
 				"i18n": "i18n/defaultGroupId.properties"
 			},
 			"payload": {
-				"viz": []
+				"viz": [{
+					"id": "com.sample.app-1",
+					"appId": "com.sample.app",
+					"vizId": "Sample-display"
+				}]
 			}
 		}],
 		"sites": [{
